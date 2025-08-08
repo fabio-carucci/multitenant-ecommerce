@@ -1,3 +1,5 @@
+"use client";
+
 import { CustomCategory } from "@/types";
 
 import {
@@ -71,7 +73,7 @@ const CategoriesSidebar = ({ open, onOpenChange, data }: Props) => {
       <SheetContent
         side="left"
         className="p-0 transition-none"
-        style={{ background: backgroundColor }}
+        style={{ backgroundColor }}
       >
         <SheetHeader className="p-4 border-b">
           <SheetTitle>Categories</SheetTitle>

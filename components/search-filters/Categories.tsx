@@ -55,11 +55,16 @@ const Categories = ({ data }: Props) => {
       setVisibleCount(visible);
     };
 
+    // Initial calculation after mount
+    calculateVisible();
+
     const resizeObserver = new ResizeObserver(calculateVisible);
-    resizeObserver.observe(containerRef.current!);
+    if (containerRef.current) {
+      resizeObserver.observe(containerRef.current);
+    }
 
     return () => resizeObserver.disconnect();
-  }, [data.length]);
+  }, [data]);
 
   return (
     <div className="relative w-full">
