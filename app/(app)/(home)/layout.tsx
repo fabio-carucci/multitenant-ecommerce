@@ -25,6 +25,7 @@ const HomeLayout = async ({
         exists: false,
       },
     },
+    sort: "name",
   });
 
   const formattedData: CustomCategory[] = data.docs.map((doc) => ({
