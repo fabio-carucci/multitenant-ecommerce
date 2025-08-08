@@ -17,7 +17,7 @@ import { useRouter } from "next/navigation";
 interface Props {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  data: CustomCategory[]; // TODO: remove this later
+  data?: CustomCategory[]; // TODO: remove this later
 }
 const CategoriesSidebar = ({ open, onOpenChange, data }: Props) => {
   const router = useRouter();

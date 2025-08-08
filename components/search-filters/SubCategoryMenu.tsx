@@ -27,7 +27,7 @@ const SubCategoryMenu = ({ category, isOpen, position }: Props) => {
         <div>
           {category.subcategories?.map((sub) => (
             <Link
-              href="/"
+              href={`/${category.slug}/${sub.slug}`}
               key={sub.slug}
               className="w-full text-left p-4 hover:bg-black hover:text-white flex justify-btween items-center underline font-medium"
             >
