@@ -1,9 +1,9 @@
 import Categories from "./Categories";
 import SearchInput from "./SearchInput";
-import { Category } from "@/payload-types";
+import { CustomCategory } from "@/types";
 
 interface Props {
-  data: Category[];
+  data: CustomCategory[];
 }
 
 const SearchFilters = ({ data }: Props) => {
