@@ -3,6 +3,7 @@
 import {
   Sheet,
   SheetContent,
+  SheetDescription,
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
@@ -25,6 +26,9 @@ const Sidebar = ({ items, open, onOpenChange }: SidebarProps) => {
       <SheetContent side="left" className="p-0 transition-none">
         <SheetHeader className="p-4 border-b">
           <SheetTitle>Menu</SheetTitle>
+          <SheetDescription className="sr-only">
+            Navigation menu
+          </SheetDescription>
         </SheetHeader>
         <ScrollArea className="flex flex-col overflow-y-auto h-full pb-2">
           {items.map((item) => (
