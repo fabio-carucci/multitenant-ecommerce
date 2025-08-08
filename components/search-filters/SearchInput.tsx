@@ -2,7 +2,7 @@
 
 import { ListFilterIcon, SearchIcon } from "lucide-react";
 import { Input } from "../ui/input";
-import { CustomCategory } from "@/types";
+import type { CustomCategory } from "@/types";
 import CategoriesSidebar from "./CategoriesSidebar";
 import { useState } from "react";
 import { Button } from "../ui/button";
@@ -34,6 +34,10 @@ const SearchInput = ({ disabled, data }: Props) => {
         variant="elevated"
         className="size-12 shrink-0 flex lg:hidden"
         onClick={() => setIsSidebarOpen(true)}
+        aria-label="Open category filters"
+        aria-haspopup="dialog"
+        aria-expanded={isSidebarOpen}
+        type="button"
       >
         <ListFilterIcon className="size-4" />
       </Button>
