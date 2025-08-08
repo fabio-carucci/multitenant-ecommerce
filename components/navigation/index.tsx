@@ -91,7 +91,7 @@ const Navbar = () => {
         </Button>
       </div>
 
-      <div className="flex lg:hidden items-center jsutify-center">
+      <div className="flex lg:hidden items-center justify-center">
         <Button
           variant="ghost"
           className="size-12 border-transparent bg-white"
