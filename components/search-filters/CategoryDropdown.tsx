@@ -29,12 +29,18 @@ const CategoryDropdown = ({
 
   const onMouseLeave = () => setIsOpen(false);
 
+  // TODO: potentially improve mobile
+  // const toggleDropdown = () => {
+  //   if (category.subcategories) setIsOpen(!isOpen);
+  // };
+
   return (
     <div
       className="relative"
       ref={dropdownRef}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
+      // onClick={toggleDropdown}
     >
       <div className="relative">
         <Button
