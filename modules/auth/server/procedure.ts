@@ -1,9 +1,8 @@
 import { baseProcedure, createTRPCRouter } from "@/trpc/init";
 import { TRPCError } from "@trpc/server";
 import { headers as getHeaders, cookies as getCookies } from "next/headers";
-import { z } from "zod";
 import { AUTH_COOKIE } from "../constants";
-import { registerSchema } from "../schemas";
+import { loginSchema, registerSchema } from "../schemas";
 
 export const authRouter = createTRPCRouter({
   session: baseProcedure.query(async ({ ctx }) => {
@@ -21,6 +20,25 @@ export const authRouter = createTRPCRouter({
   register: baseProcedure
     .input(registerSchema)
     .mutation(async ({ ctx, input }) => {
+      const existingData = await ctx.payload.find({
+        collection: "users",
+        limit: 1,
+        where: {
+          username: {
+            equals: input.username,
+          },
+        },
+      });
+
+      const existingUser = existingData.docs[0];
+
+      if (existingUser) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Username already taken",
+        });
+      }
+
       await ctx.payload.create({
         collection: "users",
         data: {
@@ -57,41 +75,34 @@ export const authRouter = createTRPCRouter({
         // domain: ""
       });
     }),
-  login: baseProcedure
-    .input(
-      z.object({
-        email: z.email(),
-        password: z.string().min(8),
-      })
-    )
-    .mutation(async ({ ctx, input }) => {
-      const data = await ctx.payload.login({
-        collection: "users",
-        data: {
-          email: input.email,
-          password: input.password,
-        },
+  login: baseProcedure.input(loginSchema).mutation(async ({ ctx, input }) => {
+    const data = await ctx.payload.login({
+      collection: "users",
+      data: {
+        email: input.email,
+        password: input.password,
+      },
+    });
+
+    if (!data.token) {
+      throw new TRPCError({
+        code: "UNAUTHORIZED",
+        message: "Failed to login",
       });
+    }
 
-      if (!data.token) {
-        throw new TRPCError({
-          code: "UNAUTHORIZED",
-          message: "Failed to login",
-        });
-      }
+    const cookies = await getCookies();
 
-      const cookies = await getCookies();
+    cookies.set({
+      name: AUTH_COOKIE,
+      value: data.token,
+      httpOnly: true,
+      path: "/",
+      // TODO: ensure cross-domain cookie sharing
+      // sameSite: "none",
+      // domain: ""
+    });
 
-      cookies.set({
-        name: AUTH_COOKIE,
-        value: data.token,
-        httpOnly: true,
-        path: "/",
-        // TODO: ensure cross-domain cookie sharing
-        // sameSite: "none",
-        // domain: ""
-      });
-
-      return data;
-    }),
+    return { user: data.user };
+  }),
 });

@@ -17,6 +17,10 @@ import { Poppins } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useTRPC } from "@/trpc/client";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -24,7 +28,21 @@ const poppins = Poppins({
   variable: "--font-poppins",
 });
 
-export const SignUpView = () => {
+const SignUpView = () => {
+  const router = useRouter();
+
+  const trpc = useTRPC();
+  const register = useMutation(
+    trpc.auth.register.mutationOptions({
+      onSuccess: () => {
+        router.push("/");
+      },
+      onError: (error) => {
+        toast.error(error.message);
+      },
+    })
+  );
+
   const form = useForm<z.infer<typeof registerSchema>>({
     mode: "all",
     resolver: zodResolver(registerSchema),
@@ -35,8 +53,8 @@ export const SignUpView = () => {
     },
   });
 
-  const onSubmit = async (data: z.infer<typeof registerSchema>) => {
-    console.log(data);
+  const onSubmit = async (values: z.infer<typeof registerSchema>) => {
+    register.mutate(values);
   };
 
   const username = form.watch("username");
@@ -83,9 +101,7 @@ export const SignUpView = () => {
                   <FormControl>
                     <Input {...field} />
                   </FormControl>
-                  <FormDescription
-                    className={cn("hidden", showPreview && "block")}
-                  >
+                  <FormDescription className={showPreview ? "block" : "hidden"}>
                     Your store will be available at&nbsp;
                     {/* TODO: use proper method to generate URL */}
                     <strong>{username}</strong>.sellio.io
@@ -122,6 +138,7 @@ export const SignUpView = () => {
             />
 
             <Button
+              disabled={register.isPending}
               type="submit"
               size="lg"
               variant="elevated"
@@ -143,3 +160,5 @@ export const SignUpView = () => {
     </div>
   );
 };
+
+export default SignUpView;
