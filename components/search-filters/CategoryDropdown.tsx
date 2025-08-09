@@ -9,7 +9,7 @@ import { CategoriesGetManyOutput } from "@/modules/categories/types";
 import Link from "next/link";
 
 interface Props {
-  category: CategoriesGetManyOutput[1];
+  category: CategoriesGetManyOutput[number];
   isActive: boolean;
   isNavigationHovered: boolean;
 }

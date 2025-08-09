@@ -28,7 +28,7 @@ const CategoriesSidebar = ({ open, onOpenChange }: Props) => {
   const [parentCategories, setParentCategories] =
     useState<CategoriesGetManyOutput | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<
-    CategoriesGetManyOutput[1] | null
+    CategoriesGetManyOutput[number] | null
   >(null);
 
   // If we have parent categories, show those, otherwise show root categories
@@ -40,9 +40,12 @@ const CategoriesSidebar = ({ open, onOpenChange }: Props) => {
     onOpenChange(open);
   };
 
-  const handleCategoryClick = (category: CategoriesGetManyOutput[1]) => {
+  const handleCategoryClick = (category: CategoriesGetManyOutput[number]) => {
     if (category.subcategories && category.subcategories.length > 0) {
-      setParentCategories(category.subcategories as CategoriesGetManyOutput);
+      // Default to empty array and cast via unknown to satisfy TS when subtypes don't exactly overlap
+      setParentCategories(
+        (category.subcategories ?? []) as unknown as CategoriesGetManyOutput
+      );
       setSelectedCategory(category);
     } else {
       // This is leaf category (no subcategory)

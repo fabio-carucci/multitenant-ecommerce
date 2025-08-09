@@ -2,7 +2,7 @@ import { CategoriesGetManyOutput } from "@/modules/categories/types";
 import Link from "next/link";
 
 interface Props {
-  category: CategoriesGetManyOutput[1];
+  category: CategoriesGetManyOutput[number];
   isOpen: boolean;
   position: { top: number; left: number };
 }
