@@ -34,5 +34,5 @@ export default buildConfig({
     payloadCloudPlugin(),
     // storage-adapter-placeholder
   ],
-  cookiePrefix: "sellio-payload",
+  cookiePrefix: "sellio",
 });
