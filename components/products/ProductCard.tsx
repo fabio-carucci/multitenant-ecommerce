@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
 import { StarIcon } from "lucide-react";
@@ -27,7 +29,7 @@ const ProductCard = ({
 }: Props) => {
   const router = useRouter();
 
-  const handleUserClick = (e: React.MouseEvent) => {
+  const handleTenantClick = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
 
@@ -47,7 +49,20 @@ const ProductCard = ({
         </div>
         <div className="p-4 border-y flex flex-col gap-3 flex-1">
           <h2 className="text-lg font-medium line-clamp-4">{name}</h2>
-          <div className="flex items-center gap-2" onClick={handleUserClick}>
+          <div
+            className="flex items-center gap-2"
+            onClick={handleTenantClick}
+            role="button"
+            tabIndex={0}
+            aria-label={`View ${tenantSlug} shop`}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                e.stopPropagation();
+                router.push(generateTenantUrl(tenantSlug));
+              }
+            }}
+          >
             {tenantImageUrl && (
               <Image
                 src={tenantImageUrl}
