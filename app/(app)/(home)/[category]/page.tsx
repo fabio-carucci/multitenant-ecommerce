@@ -3,7 +3,7 @@ import ProductFilters from "@/components/products/filters";
 import ProductList, {
   ProductListSkeleton,
 } from "@/components/products/ProductList";
-import { loadProductFilters } from "@/hooks/use-product-filters";
+import { loadProductFilters } from "@/lib/search-params/product-filters.server";
 import { getQueryClient, trpc } from "@/trpc/server";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { Suspense } from "react";

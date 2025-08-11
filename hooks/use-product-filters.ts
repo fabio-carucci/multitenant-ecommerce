@@ -1,23 +1,8 @@
-import { sortValues } from "@/constants";
+"use client";
+import { productFiltersParams } from "@/lib/search-params/product-filters";
 import { useQueryStates } from "nuqs";
-import {
-  parseAsString,
-  createLoader,
-  parseAsArrayOf,
-  parseAsStringLiteral,
-} from "nuqs/server";
-
-export const params = {
-  sort: parseAsStringLiteral(sortValues).withDefault("curated"),
-  minPrice: parseAsString.withOptions({ clearOnDefault: true }).withDefault(""),
-  maxPrice: parseAsString.withOptions({ clearOnDefault: true }).withDefault(""),
-  tags: parseAsArrayOf(parseAsString)
-    .withOptions({ clearOnDefault: true })
-    .withDefault([]),
-};
 
 export const useProductFilters = () => {
-  return useQueryStates(params);
+  return useQueryStates(productFiltersParams);
 };
-
-export const loadProductFilters = createLoader(params);
+ 
