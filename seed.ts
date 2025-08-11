@@ -142,6 +142,38 @@ const seed = async () => {
     config: configPromise,
   });
 
+  // Create tenant
+  const adminTenant = await payload.create({
+    collection: "tenants",
+    data: {
+      name: "Admin",
+      slug: "admin",
+      stripeAccountId: "test",
+    },
+  });
+
+  // Create Admin User
+  const existingAdmin = await payload.find({
+    collection: "users",
+    where: { email: { equals: "admin@admin.com" } },
+    limit: 1,
+  });
+  if (existingAdmin.docs.length === 0) {
+    await payload.create({
+      collection: "users",
+      data: {
+        email: "admin@admin.com",
+        password: "password",
+        username: "admin",
+        roles: ["super-admin"],
+        tenants: [{ tenant: adminTenant.id }],
+      },
+    });
+    console.log("Created admin user: admin@admin.com");
+  } else {
+    console.log("Admin user already exists, skipping creation");
+  }
+
   for (const category of categories) {
     const parentCategory = await payload.create({
       collection: "categories",
