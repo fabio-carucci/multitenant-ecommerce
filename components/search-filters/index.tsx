@@ -12,9 +12,8 @@ const SearchFilters = () => {
   const trpc = useTRPC();
   const { data } = useSuspenseQuery(trpc.categories.getMany.queryOptions());
 
-  const params = useParams();
-  const categoryParam = params.category as string | undefined;
-  const activeCategory = categoryParam || "all";
+  const params = useParams<{ category?: string; subcategory?: string }>();
+  const activeCategory = params.category ?? "all";
 
   const activeCategoryData = data.find(
     (category) => category.slug === activeCategory
@@ -23,11 +22,14 @@ const SearchFilters = () => {
   const activeCategoryColor = activeCategoryData?.color || DEFAULT_BG_COLOR;
   const activeCategoryName = activeCategoryData?.name || null;
 
-  const activeSubcategory = params?.subcategory || null;
+  const activeSubcategory = params.subcategory ?? null;
   const activeSubcategoryName =
-    activeCategoryData?.subcategories?.find(
-      (sub) => sub.slug === activeSubcategory
-    )?.name || null;
+    (activeSubcategory &&
+      activeCategoryData?.subcategories?.find(
+        (sub) => sub.slug === activeSubcategory
+      )?.name) ||
+    null;
+
   return (
     <div
       className="px-4 lg:px-12 py-8 border-b flex flex-col gap-4 w-full"
