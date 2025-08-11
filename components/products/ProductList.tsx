@@ -1,5 +1,6 @@
 "use client";
 
+import { useProductFilters } from "@/hooks/use-product-filters";
 import { useTRPC } from "@/trpc/client";
 import { useSuspenseQuery } from "@tanstack/react-query";
 
@@ -8,9 +9,11 @@ interface Props {
 }
 
 const ProductList = ({ category }: Props) => {
+  const [filters] = useProductFilters();
+
   const trpc = useTRPC();
   const { data } = useSuspenseQuery(
-    trpc.products.getMany.queryOptions({ category })
+    trpc.products.getMany.queryOptions({ category, ...filters })
   );
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
