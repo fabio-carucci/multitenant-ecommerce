@@ -37,13 +37,18 @@ const ProductFilter = ({ title, className, children }: ProductFilterProps) => {
 const ProductFilters = () => {
   const [filters, setFilters] = useProductFilters();
 
-  const hasAnyFilters = Object.values(filters).some((value) => value !== null);
+  const hasAnyFilters = Object.entries(filters).some(([key, value]) => {
+    if (key === "sort") return false;
+    if (Array.isArray(value)) return value.length > 0;
+    if (typeof value === "string") return value !== "";
+    return value !== null;
+  });
 
   const onClear = () => {
     setFilters({
-      minPrice: null,
-      maxPrice: null,
-      tags: null,
+      minPrice: "",
+      maxPrice: "",
+      tags: [],
     });
   };
 
