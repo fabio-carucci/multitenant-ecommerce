@@ -4,8 +4,9 @@ import { redirect } from "next/navigation";
 
 const SignIn = async () => {
   const session = await caller.auth.session();
+  console.log(session);
 
-  if (session) redirect("/");
+  if (session.user) redirect("/");
 
   return <SignInView />;
 };
