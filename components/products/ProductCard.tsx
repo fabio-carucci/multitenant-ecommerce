@@ -44,7 +44,7 @@ const ProductCard = ({
                 alt={authorUsername}
                 width={16}
                 height={16}
-                className="rounded-full border shrink-0 size-4"
+                className="rounded-full border shrink-0 size-4 object-cover"
               />
             )}
             <p className="text-sm underline font-medium">{authorUsername}</p>
