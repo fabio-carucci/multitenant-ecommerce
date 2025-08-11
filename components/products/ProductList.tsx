@@ -10,16 +10,17 @@ import { InboxIcon } from "lucide-react";
 
 interface Props {
   category?: string;
+  tenantSlug?: string;
 }
 
-const ProductList = ({ category }: Props) => {
+const ProductList = ({ category, tenantSlug }: Props) => {
   const [filters] = useProductFilters();
 
   const trpc = useTRPC();
   const { data, hasNextPage, fetchNextPage, isFetchingNextPage } =
     useSuspenseInfiniteQuery(
       trpc.products.getMany.infiniteQueryOptions(
-        { ...filters, category, limit: DEFAULT_LIMIT },
+        { ...filters, category, tenantSlug, limit: DEFAULT_LIMIT },
         {
           getNextPageParam: (lastPage) => {
             return lastPage.docs.length > 0 ? lastPage.nextPage : undefined;
@@ -47,8 +48,8 @@ const ProductList = ({ category }: Props) => {
               id={product.id}
               name={product.name}
               imageUrl={product.image?.url}
-              authorUsername="fabio"
-              authorImageUrl={undefined}
+              authorUsername={product.tenant?.name}
+              authorImageUrl={product.tenant?.image?.url}
               reviewRating={3}
               reviewCount={5}
               price={product.price}
