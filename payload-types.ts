@@ -171,7 +171,7 @@ export interface Tenant {
    * This is the subdomain of the store (e.g [slug].sellio.com)
    */
   slug: string;
-  logo?: (string | null) | Media;
+  image?: (string | null) | Media;
   stripeAccountId: string;
   /**
    * You cannot create products until you have submitted your Stripe details
@@ -415,7 +415,7 @@ export interface TagsSelect<T extends boolean = true> {
 export interface TenantsSelect<T extends boolean = true> {
   name?: T;
   slug?: T;
-  logo?: T;
+  image?: T;
   stripeAccountId?: T;
   stripeDetailsSubmitted?: T;
   updatedAt?: T;
