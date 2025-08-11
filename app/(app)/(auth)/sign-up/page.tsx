@@ -7,7 +7,7 @@ export const dynamic = "force-dynamic";
 const SignUp = async () => {
   const session = await caller.auth.session();
 
-  if (session.user) redirect("/");
+  if (session?.user) redirect("/");
 
   return <SignUpView />;
 };
