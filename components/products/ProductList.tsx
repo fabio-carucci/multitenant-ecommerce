@@ -7,13 +7,15 @@ import ProductCard, { ProductCardSkeleton } from "./ProductCard";
 import { DEFAULT_LIMIT } from "@/constants";
 import { Button } from "../ui/button";
 import { InboxIcon } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface Props {
   category?: string;
   tenantSlug?: string;
+  narrowView?: boolean;
 }
 
-const ProductList = ({ category, tenantSlug }: Props) => {
+const ProductList = ({ category, tenantSlug, narrowView }: Props) => {
   const [filters] = useProductFilters();
 
   const trpc = useTRPC();
@@ -39,7 +41,12 @@ const ProductList = ({ category, tenantSlug }: Props) => {
   }
   return (
     <>
-      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
+      <div
+        className={cn(
+          "grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4",
+          narrowView && "lg:grid-cols-2 2xl:grid-cols-3"
+        )}
+      >
         {data?.pages
           .flatMap((page) => page.docs)
           .map((product) => (
@@ -74,9 +81,18 @@ const ProductList = ({ category, tenantSlug }: Props) => {
 
 export default ProductList;
 
-export const ProductListSkeleton = () => {
+export const ProductListSkeleton = ({
+  narrowView,
+}: {
+  narrowView?: boolean;
+}) => {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
+    <div
+      className={cn(
+        "grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4",
+        narrowView && "lg:grid-cols-2 2xl:grid-cols-3"
+      )}
+    >
       {Array.from({ length: DEFAULT_LIMIT }).map((_, i) => (
         <ProductCardSkeleton key={i} />
       ))}
