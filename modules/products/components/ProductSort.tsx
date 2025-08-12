@@ -1,7 +1,7 @@
 "use client";
 
-import { useProductFilters } from "@/hooks/use-product-filters";
-import { Button } from "../ui/button";
+import { useProductFilters } from "@/modules/products/hooks/use-product-filters";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 const ProductSort = () => {

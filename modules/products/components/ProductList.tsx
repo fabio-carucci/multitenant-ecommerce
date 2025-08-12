@@ -1,11 +1,11 @@
 "use client";
 
-import { useProductFilters } from "@/hooks/use-product-filters";
+import { useProductFilters } from "@/modules/products/hooks/use-product-filters";
 import { useTRPC } from "@/trpc/client";
 import { useSuspenseInfiniteQuery } from "@tanstack/react-query";
 import ProductCard, { ProductCardSkeleton } from "./ProductCard";
 import { DEFAULT_LIMIT } from "@/constants";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 import { InboxIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 

@@ -1,9 +1,9 @@
 import { Suspense } from "react";
-import ProductFilters from "./filters";
-import ProductSort from "./ProductSort";
-import ProductList, { ProductListSkeleton } from "./ProductList";
+import ProductSort from "../components/ProductSort";
+import ProductFilters from "../components/filters";
+import ProductList, { ProductListSkeleton } from "../components/ProductList";
 
-export const ProductListView = ({
+const ProductListView = ({
   category,
   tenantSlug,
   narrowView,
@@ -37,3 +37,5 @@ export const ProductListView = ({
     </div>
   );
 };
+
+export default ProductListView;

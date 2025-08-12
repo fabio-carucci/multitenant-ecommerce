@@ -5,12 +5,14 @@ import { useTRPC } from "@/trpc/client";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
-import StarRating from "../star-rating/StarRating";
-import { Button } from "../ui/button";
+
 import { LinkIcon, StarIcon } from "lucide-react";
 import { Fragment } from "react";
-import { Progress } from "../ui/progress";
+
 import { toast } from "sonner";
+import StarRating from "@/components/star-rating/StarRating";
+import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
 
 interface Props {
   productId: string;
