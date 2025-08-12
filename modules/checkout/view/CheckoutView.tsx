@@ -7,16 +7,17 @@ import { useEffect } from "react";
 import { toast } from "sonner";
 import { generateTenantUrl } from "@/lib/utils";
 import CheckoutItem from "../components/CheckoutItem";
+import CheckoutSidebar from "../components/CheckoutSidebar";
+import { InboxIcon, Loader2 } from "lucide-react";
 
 const CheckoutView = ({ tenantSlug }: { tenantSlug: string }) => {
   const { productIds, clearAllCarts, removeProduct } = useCart(tenantSlug);
 
   const trpc = useTRPC();
-  const { data, error } = useQuery({
+  const { data, error, isLoading } = useQuery({
     ...trpc.checkout.getProducts.queryOptions({
       ids: productIds,
     }),
-    enabled: productIds.length > 0,
   });
 
   useEffect(() => {
@@ -25,6 +26,27 @@ const CheckoutView = ({ tenantSlug }: { tenantSlug: string }) => {
       toast.warning("Invalid products found, cart cleared");
     }
   }, [error, clearAllCarts]);
+
+  if (isLoading) {
+    return (
+      <div className="px-4 lg:px-12 lg:pt-16 pt-4">
+        <div className="border border-black border-dashed flex items-center justify-center p-8 flex-col gap-y-4 bg-white w-full rounded-lg">
+          <Loader2 className="animate-spin" />
+        </div>
+      </div>
+    );
+  }
+
+  if (!data || data.docs.length === 0) {
+    return (
+      <div className="px-4 lg:px-12 lg:pt-16 pt-4">
+        <div className="border border-black border-dashed flex items-center justify-center p-8 flex-col gap-y-4 bg-white w-full rounded-lg">
+          <InboxIcon />
+          <p className="text-base font-medium">No products found</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="lg:pt-16 pt-4 px-4 lg:px-12">
@@ -46,7 +68,14 @@ const CheckoutView = ({ tenantSlug }: { tenantSlug: string }) => {
             ))}
           </div>
         </div>
-        <div className="lg:col-span-3">Checkout Sidebar</div>
+        <div className="lg:col-span-3">
+          <CheckoutSidebar
+            total={data?.total || 0}
+            onCheckout={() => {}}
+            isCanceled={false}
+            isPending={false}
+          />
+        </div>
       </div>
     </div>
   );
