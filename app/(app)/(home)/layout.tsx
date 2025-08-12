@@ -2,7 +2,7 @@ import Footer from "@/components/footer";
 import Navbar from "@/components/navigation";
 import SearchFilters, {
   SearchFiltersSkeleton,
-} from "@/components/search-filters";
+} from "@/modules/categories/components/SearchFilters";
 
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { getQueryClient, trpc } from "@/trpc/server";
