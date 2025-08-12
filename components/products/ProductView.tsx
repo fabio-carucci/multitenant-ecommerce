@@ -10,6 +10,7 @@ import { Button } from "../ui/button";
 import { LinkIcon, StarIcon } from "lucide-react";
 import { Fragment } from "react";
 import { Progress } from "../ui/progress";
+import { toast } from "sonner";
 
 interface Props {
   productId: string;
@@ -39,7 +40,7 @@ const ProductView = ({ productId, tenantSlug }: Props) => {
             </div>
             <div className="border-y flex">
               <div className="px-6 py-4 flex items-center justify-center border-r">
-                <div className="px-2 py-1- border bg-pink-400 w-fit">
+                <div className="px-2 py-1 border bg-pink-400 w-fit">
                   <p className="text-base font-medium">
                     {formatCurrency(data.price)}
                   </p>
@@ -99,8 +100,23 @@ const ProductView = ({ productId, tenantSlug }: Props) => {
                   <Button
                     variant="elevated"
                     className="size-12"
-                    onClick={() => {}}
-                    disabled={false}
+                    aria-label="Copy product link"
+                    title="Copy product link"
+                    onClick={() => {
+                      const url =
+                        typeof window !== "undefined"
+                          ? window.location.href
+                          : "";
+                      if (!url) return;
+                      navigator.clipboard
+                        ?.writeText(url)
+                        .then(() => {
+                          toast.success("Link copied to clipboard");
+                        })
+                        .catch(() => {
+                          console.warn("Failed to copy link");
+                        });
+                    }}
                   >
                     <LinkIcon />
                   </Button>

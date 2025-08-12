@@ -14,10 +14,15 @@ interface Props {
 const StarRating = ({ rating, className, iconClassName, text }: Props) => {
   const safeRating = Math.max(MIN_RATING, Math.min(rating, MAX_RATING));
   return (
-    <div className={cn("flex items-center gap-x-1", className)}>
+    <div
+      className={cn("flex items-center gap-x-1", className)}
+      role="img"
+      aria-label={`${safeRating} out of ${MAX_RATING} stars`}
+    >
       {Array.from({ length: MAX_RATING }, (_, index) => (
         <StarIcon
           key={index}
+          aria-hidden="true"
           className={cn(
             "size-4",
             index < safeRating ? "fill-black" : "",
