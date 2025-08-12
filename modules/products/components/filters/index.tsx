@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import { ChevronDownIcon, ChevronRightIcon } from "lucide-react";
 import { useState } from "react";
 import PriceFilter from "./PriceFilter";
-import { useProductFilters } from "@/hooks/use-product-filters";
+import { useProductFilters } from "@/modules/products/hooks/use-product-filters";
 import TagsFilter from "./TagsFilter";
 
 interface ProductFilterProps {

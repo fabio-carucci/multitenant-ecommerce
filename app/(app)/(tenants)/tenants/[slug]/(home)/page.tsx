@@ -1,10 +1,9 @@
-import { ProductListView } from "@/components/products/ProductListView";
 import { DEFAULT_LIMIT } from "@/constants";
 import { loadProductFilters } from "@/lib/search-params/product-filters.server";
+import ProductListView from "@/modules/products/views/ProductListView";
 import { getQueryClient, trpc } from "@/trpc/server";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { SearchParams } from "nuqs";
-import React from "react";
 
 interface Props {
   params: Promise<{ slug: string }>;

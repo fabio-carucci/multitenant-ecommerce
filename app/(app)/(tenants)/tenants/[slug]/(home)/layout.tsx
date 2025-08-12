@@ -1,7 +1,7 @@
 import TenantNavbar, {
   TenantNavbarSkeleton,
-} from "@/components/tenants/navigation";
-import TenantFooter from "@/components/tenants/footer";
+} from "@/modules/tenants/components/navigation";
+import TenantFooter from "@/modules/tenants/components/footer";
 import { getQueryClient, trpc } from "@/trpc/server";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { Suspense } from "react";
