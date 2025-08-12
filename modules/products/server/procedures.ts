@@ -3,7 +3,7 @@ import type { Category, Media, Tenant } from "@/payload-types";
 import { baseProcedure, createTRPCRouter } from "@/trpc/init";
 import { TRPCError } from "@trpc/server";
 import { Sort, Where } from "payload";
-import z from "zod";
+import { z } from "zod";
 
 export const productsRouter = createTRPCRouter({
   getOne: baseProcedure
