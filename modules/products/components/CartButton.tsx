@@ -7,6 +7,13 @@ interface Props {
   productId: string;
 }
 
+/**
+ * A button to add or remove a product from the cart for a given tenant.
+ *
+ * @param tenantSlug - The slug of the tenant.
+ * @param productId - The identifier of the product to add/remove from cart.
+ * @returns A button element.
+ */
 const CartButton = ({ tenantSlug, productId }: Props) => {
   const cart = useCart(tenantSlug);
   return (

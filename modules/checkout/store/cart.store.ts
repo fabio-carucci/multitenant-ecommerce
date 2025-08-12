@@ -14,6 +14,13 @@ interface CartState {
   getCartByTenant: (tenantSlug: string) => string[];
 }
 
+/**
+ * @function useCartStore
+ * @description A Zustand store for managing shopping carts across different tenants.
+ * Provides methods to add, remove, and clear products in a tenant's cart,
+ * as well as retrieve the list of product IDs for a specific tenant.
+ * The cart is persisted in localStorage.
+ */
 export const useCartStore = create<CartState>()(
   persist(
     (set, get) => ({

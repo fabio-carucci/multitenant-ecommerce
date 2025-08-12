@@ -19,7 +19,12 @@ import { Progress } from "@/components/ui/progress";
 const CartButton = dynamic(() => import("../components/CartButton"), {
   ssr: false,
   loading: () => (
-    <Button disabled className="flex-1 bg-pink-400 text-black">
+    <Button
+      disabled
+      className="flex-1 bg-pink-400"
+      variant="elevated"
+      aria-label="Loading cart button"
+    >
       Loading...
     </Button>
   ),
