@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { loginSchema } from "../../schemas";
-import z from "zod";
+import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { Poppins } from "next/font/google";
