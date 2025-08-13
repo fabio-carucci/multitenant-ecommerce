@@ -13,7 +13,6 @@ interface CartState {
   removeProduct: (tenantSlug: string, productId: string) => void;
   clearCart: (tenantSlug: string) => void;
   clearAllCarts: () => void;
-  getCartByTenant: (tenantSlug: string) => string[];
 }
 
 /**
@@ -25,7 +24,7 @@ interface CartState {
  */
 export const useCartStore = create<CartState>()(
   persist(
-    (set, get) => ({
+    (set) => ({
       tenantCarts: {},
       addProduct: (tenantSlug: string, productId: string) =>
         set((state) => ({
@@ -64,8 +63,6 @@ export const useCartStore = create<CartState>()(
         set({
           tenantCarts: {},
         }),
-      getCartByTenant: (tenantSlug: string) =>
-        get().tenantCarts[tenantSlug]?.productIds || [],
     }),
     {
       name: "sellio-cart",
