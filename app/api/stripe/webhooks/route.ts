@@ -57,22 +57,14 @@ export async function POST(req: Request) {
             throw new Error("User not found");
           }
 
-          const expandedSession = await stripe.checkout.sessions.retrieve(
+          const lineItemsResp = await stripe.checkout.sessions.listLineItems(
             data.id,
-            {
-              expand: ["line_items.data.price.product"],
-            }
+            { expand: ["data.price.product"] }
           );
-
-          if (
-            !expandedSession.line_items?.data ||
-            !expandedSession.line_items.data.length
-          ) {
+          if (!lineItemsResp.data?.length) {
             throw new Error("No line items found");
           }
-
-          const lineItems = expandedSession.line_items
-            .data as ExpandedLineItem[];
+          const lineItems = lineItemsResp.data as ExpandedLineItem[];
 
           for (const item of lineItems) {
             await payload.create({
