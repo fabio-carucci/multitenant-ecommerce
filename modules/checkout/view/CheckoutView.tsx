@@ -1,7 +1,7 @@
 "use client";
 
 import { useTRPC } from "@/trpc/client";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useCart } from "../hooks/use-cart";
 import { useEffect } from "react";
 import { toast } from "sonner";
@@ -9,9 +9,14 @@ import { generateTenantUrl } from "@/lib/utils";
 import CheckoutItem from "../components/CheckoutItem";
 import CheckoutSidebar from "../components/CheckoutSidebar";
 import { InboxIcon, Loader2 } from "lucide-react";
+import { useCheckoutStates } from "../hooks/use-checkout-states";
+import { useRouter } from "next/navigation";
 
 const CheckoutView = ({ tenantSlug }: { tenantSlug: string }) => {
-  const { productIds, clearAllCarts, removeProduct } = useCart(tenantSlug);
+  const router = useRouter();
+
+  const [states, setStates] = useCheckoutStates();
+  const { productIds, clearCart, removeProduct } = useCart(tenantSlug);
 
   const trpc = useTRPC();
   const { data, error, isLoading } = useQuery({
@@ -20,12 +25,46 @@ const CheckoutView = ({ tenantSlug }: { tenantSlug: string }) => {
     }),
   });
 
+  const purchase = useMutation(
+    trpc.checkout.purchase.mutationOptions({
+      onMutate: () => {
+        setStates({
+          success: false,
+          cancel: false,
+        });
+      },
+      onSuccess: (data) => {
+        window.location.href = data.url;
+      },
+      onError: (error) => {
+        if (error.data?.code === "UNAUTHORIZED") {
+          // TODO: modify when subdomains are implemented
+          router.push("/sign-in");
+        }
+        toast.error(error.message || "Failed to purchase products");
+      },
+    })
+  );
+
+  useEffect(() => {
+    if (states.success) {
+      setStates({
+        success: false,
+        cancel: false,
+      });
+      clearCart();
+      // TODO: invalidate library
+      toast.success("Products purchased successfully");
+      router.push("/products");
+    }
+  }, [states.success, clearCart, router, setStates]);
+
   useEffect(() => {
     if (error?.data?.code === "NOT_FOUND") {
-      clearAllCarts();
+      clearCart();
       toast.warning("Invalid products found, cart cleared");
     }
-  }, [error, clearAllCarts]);
+  }, [error, clearCart]);
 
   if (isLoading) {
     return (
@@ -71,9 +110,14 @@ const CheckoutView = ({ tenantSlug }: { tenantSlug: string }) => {
         <div className="lg:col-span-3">
           <CheckoutSidebar
             total={data?.total || 0}
-            onCheckout={() => {}}
-            isCanceled={false}
-            isPending={false}
+            onPurchase={() =>
+              purchase.mutate({
+                productIds,
+                tenantSlug,
+              })
+            }
+            isCanceled={states.cancel}
+            disabled={purchase.isPending}
           />
         </div>
       </div>
