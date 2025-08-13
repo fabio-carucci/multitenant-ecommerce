@@ -59,15 +59,6 @@ const CheckoutItem = ({
           className="underline font-medium cursor-pointer"
           type="button"
           aria-label="Remove product from cart"
-          tabIndex={0}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" || e.key === " ") {
-              e.preventDefault();
-              e.stopPropagation();
-              onRemove();
-            }
-          }}
-          role="button"
         >
           Remove
         </button>
