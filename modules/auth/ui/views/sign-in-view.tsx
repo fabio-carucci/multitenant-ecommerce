@@ -20,6 +20,7 @@ import { useTRPC } from "@/trpc/client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { useRedirectStates } from "../../hooks/use-redirect-states";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -32,12 +33,18 @@ const SignInView = () => {
 
   const queryClient = useQueryClient();
 
+  const [redirectState] = useRedirectStates();
+  const target =
+    redirectState.redirect && redirectState.redirect.startsWith("/")
+      ? redirectState.redirect
+      : "/";
+
   const trpc = useTRPC();
   const login = useMutation(
     trpc.auth.login.mutationOptions({
       onSuccess: async () => {
         await queryClient.invalidateQueries(trpc.auth.session.queryOptions());
-        router.push("/");
+        router.push(target);
       },
       onError: (error) => {
         toast.error(error.message);
