@@ -24,6 +24,17 @@ export const libraryRouter = createTRPCRouter({
         },
       });
 
+      if (ordersData.docs.length === 0) {
+        return {
+          docs: [],
+          totalDocs: 0,
+          limit: input.limit,
+          totalPages: 0,
+          nextPage: undefined,
+          prevPage: undefined,
+        };
+      }
+
       const productIds = ordersData.docs.map((order) => order.product);
 
       const productsData = await ctx.payload.find({
