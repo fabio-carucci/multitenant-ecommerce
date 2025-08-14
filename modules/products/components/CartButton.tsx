@@ -1,10 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useCart } from "@/modules/checkout/hooks/use-cart";
+import Link from "next/link";
 
 interface Props {
   tenantSlug: string;
   productId: string;
+  isPurchased: boolean;
 }
 
 /**
@@ -12,10 +14,25 @@ interface Props {
  *
  * @param tenantSlug - The slug of the tenant.
  * @param productId - The identifier of the product to add/remove from cart.
+ * @param isPurchased - Whether the product is already purchased.
  * @returns A button element.
  */
-const CartButton = ({ tenantSlug, productId }: Props) => {
+const CartButton = ({ tenantSlug, productId, isPurchased }: Props) => {
   const cart = useCart(tenantSlug);
+
+  if (isPurchased) {
+    return (
+      <Button
+        variant="elevated"
+        asChild
+        className="flex-1 font-medium bg-white"
+      >
+        <Link prefetch href={`/library/${productId}`}>
+          View in library
+        </Link>
+      </Button>
+    );
+  }
   return (
     <Button
       variant="elevated"
