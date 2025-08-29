@@ -6,6 +6,7 @@ export const Products: CollectionConfig = {
   slug: "products",
   admin: {
     useAsTitle: "name",
+    description: "You must verify your account before creating products",
   },
   access: {
     create: ({ req }) => {
