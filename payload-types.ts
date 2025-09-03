@@ -249,6 +249,10 @@ export interface Product {
    */
   content?: string | null;
   /**
+   * If checked, this product will not be shown on the public storefront
+   */
+  isPrivate?: boolean | null;
+  /**
    * If checked, this product will not be visible to customers
    */
   isArchived?: boolean | null;
@@ -456,6 +460,7 @@ export interface ProductsSelect<T extends boolean = true> {
   cover?: T;
   refundPolicy?: T;
   content?: T;
+  isPrivate?: T;
   isArchived?: T;
   updatedAt?: T;
   createdAt?: T;
