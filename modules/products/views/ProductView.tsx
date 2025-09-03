@@ -5,6 +5,7 @@ import { useTRPC } from "@/trpc/client";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
+import { RichText } from "@payloadcms/richtext-lexical/react";
 
 import dynamic from "next/dynamic";
 
@@ -107,7 +108,7 @@ const ProductView = ({ productId, tenantSlug }: Props) => {
 
             <div className="p-6">
               {data.description ? (
-                <p>{data.description}</p>
+                <RichText data={data.description} />
               ) : (
                 <p className="font-medium text-muted-foreground italic">
                   No description available
@@ -195,3 +196,20 @@ const ProductView = ({ productId, tenantSlug }: Props) => {
 };
 
 export default ProductView;
+
+export const ProductViewSkeleton = () => {
+  return (
+    <div className="px-4 lg:px-12 py-10">
+      <div className="border rounded-sm bg-white overflow-hidden">
+        <div className="relative aspect-[3.9] border-b">
+          <Image
+            src={"/placeholder.png"}
+            alt={"Placeholder"}
+            fill
+            className="object-cover"
+          />
+        </div>
+      </div>
+    </div>
+  );
+};

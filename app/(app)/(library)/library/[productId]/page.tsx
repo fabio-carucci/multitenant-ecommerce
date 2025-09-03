@@ -1,6 +1,9 @@
-import ProductView from "@/modules/library/view/ProductView";
+import ProductView, {
+  ProductViewSkeleton,
+} from "@/modules/library/view/ProductView";
 import { getQueryClient, trpc } from "@/trpc/server";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
+import { Suspense } from "react";
 
 // This page is user-specific; ensure it never gets statically cached.
 export const dynamic = "force-dynamic";
@@ -38,7 +41,9 @@ const LibraryProductPage = async ({ params }: Props) => {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <ProductView productId={productId} />
+      <Suspense fallback={<ProductViewSkeleton />}>
+        <ProductView productId={productId} />
+      </Suspense>
     </HydrationBoundary>
   );
 };
