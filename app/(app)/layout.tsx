@@ -12,8 +12,23 @@ const dmSans = DM_Sans({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL!),
   title: "Sellio",
   description: "Sellio, the best e-commerce platform",
+  openGraph: {
+    title: "Sellio",
+    description: "Sellio, the best e-commerce platform",
+    type: "website",
+    locale: "en",
+    siteName: "Sellio",
+    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Sellio" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Sellio",
+    description: "Sellio, the best e-commerce platform",
+    images: ["/og-image.png"],
+  },
 };
 
 export default function RootLayout({
